@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="An illustrated lab notebook documenting our attempt to classically estimate quantum echoes in the Duke Quantum Hackathon.">
+  <meta name="description" content="An illustrated lab notebook documenting our attempt to classically estimate quantum echoes in the BlueQubit Challenge: CyberCon + QuantTraders.">
   <meta name="theme-color" content="#07111f">
-  <title>Chasing the Echo — Duke Quantum Hackathon</title>
+  <title>BlueQubit Challenge: CyberCon + QuantTraders</title>
   <link rel="stylesheet" href="styles.css">
   <script type="module" src="app.js"></script>
 </head>
@@ -15,9 +15,9 @@
 
   <header class="hero" id="top">
     <nav class="topbar" aria-label="Primary navigation">
-      <a class="wordmark" href="#top" aria-label="Chasing the Echo home">
+      <a class="wordmark" href="#top" aria-label="BlueQubit Challenge: CyberCon + QuantTraders home">
         <span class="wordmark-mark" aria-hidden="true">Ψ</span>
-        <span>Chasing the Echo</span>
+        <span>BlueQubit Challenge: CyberCon + QuantTraders</span>
       </a>
       <div class="topbar-links">
         <a href="#journey">The journey</a>
@@ -48,7 +48,7 @@
       <div><dt>7</dt><dd>problem families</dd></div>
       <div><dt>38</dt><dd>qubits at the frontier</dd></div>
       <div><dt>2<sup>38</sup></dt><dd>possible basis states</dd></div>
-      <div><dt>197</dt><dd>best verified G4 snapshot</dd></div>
+      <div><dt>544</dt><dd>best G4 score of 20 submissions</dd></div>
     </dl>
   </header>
 
@@ -162,7 +162,7 @@
           </article>
           <article>
             <div class="problem-id">G4</div>
-            <div><h3>38-qubit Haar-random grid</h3><p>The hardest case: 3,024 CZ gates, deep interference, and no exact backend. We tested structural guesses, MPS compression, and increasingly fine Pauli paths.</p></div>
+            <div><h3>38-qubit Haar-random grid</h3><p>The hardest case: 3,024 CZ gates, deep interference, and no exact backend. We tested structural guesses, MPS compression, increasingly fine Pauli paths, and finally extrapolation to zero cutoff.</p></div>
             <span class="status frontier">Frontier</span>
           </article>
         </div>
@@ -188,7 +188,7 @@
           <article class="featured">
             <span class="method-index">C</span>
             <h3>Pauli paths</h3>
-            <p>Propagate the observable backward instead of the whole state forward. Discard small Pauli coefficients to control memory. This produced our best verified G4 estimate.</p>
+            <p>Propagate the observable backward instead of the whole state forward. Discard small Pauli coefficients to control memory. These runs supplied every G4 estimate we extrapolated from.</p>
             <dl><div><dt>Knob</dt><dd>Truncation cutoff</dd></div><div><dt>Risk</dt><dd>Interference error</dd></div></dl>
           </article>
           <article>
@@ -210,6 +210,20 @@
             <div><span>0.0001</span><i style="--kept: 54%"></i><small>finer</small></div>
             <div><span>0.00002</span><i style="--kept: 78%"></i><small>GPU</small></div>
             <div><span>0.000015</span><i style="--kept: 88%"></i><small>memory permitting</small></div>
+          </div>
+        </div>
+
+        <div class="cutoff-demo">
+          <div>
+            <p class="eyebrow">The last step</p>
+            <h3>Estimate what the next cutoff would have added.</h3>
+            <p>We could no longer afford a tighter cutoff, but we had kept every finite-cutoff result. Fitting <em>v(t) ≈ v(0) + a·t<sup>p</sup></em> per circuit let us estimate the zero-cutoff value <em>v(0)</em>. We tested several candidate formulas and fixed them before their scores came back.</p>
+          </div>
+          <div class="cutoff-ruler" aria-label="G4 scores for raw and extrapolated estimates">
+            <div><span>raw</span><i style="--kept: 21.3%"></i><small>213</small></div>
+            <div><span>p = 1</span><i style="--kept: 36.8%"></i><small>368</small></div>
+            <div><span>p = 1/2</span><i style="--kept: 49.6%"></i><small>496</small></div>
+            <div><span>p = 1/4</span><i style="--kept: 54.4%"></i><small>544</small></div>
           </div>
         </div>
       </section>
@@ -237,12 +251,13 @@
           <div><span>G1</span><strong>300</strong><i style="--score:100%"></i><small>/ 300</small></div>
           <div><span>G2</span><strong>534</strong><i style="--score:89%"></i><small>/ 600</small></div>
           <div><span>G3</span><strong>795</strong><i style="--score:99.4%"></i><small>/ 800</small></div>
-          <div class="g4"><span>G4</span><strong>197</strong><i style="--score:19.7%"></i><small>/ 1000 · verified snapshot</small></div>
+          <div class="g4"><span>G4</span><strong>544</strong><i style="--score:54.4%"></i><small>/ 1000 · extrapolated</small></div>
         </div>
+        <p class="standfirst">Best scores total <strong>2,473</strong> across all seven problems, from 33 submissions.</p>
 
         <aside class="caveat">
           <strong>Scientific honesty matters.</strong>
-          <p>G4 was not solved exactly. The repository preserves approximate results and their limitations. G3’s best saved vector is included, but its precise producing configuration remains unverified.</p>
+          <p>G4 was not solved exactly. Its best score came from a fourth-root extrapolation of Pauli-path results: a successful heuristic, not proof that the true error follows that law. The final nine G4 candidates were prepared before their scores came back; we used the scores to pick the winner, not to reconstruct hidden answers. G3’s best saved vector is included, but its precise producing configuration remains unverified.</p>
         </aside>
       </section>
 
@@ -255,6 +270,7 @@
           <li><span>03</span><div><h3>Record provenance at the moment of computation.</h3><p>Every useful value needs its circuit ID, backend, cutoff, compilation level, job ID, cost, and status. Missing provenance makes a strong result difficult to defend.</p></div></li>
           <li><span>04</span><div><h3>Convergence is evidence, not a setting name.</h3><p>A “fine” cutoff is only meaningful when successive estimates stabilize or an independent method agrees.</p></div></li>
           <li><span>05</span><div><h3>Build for failure.</h3><p>Checkpointing, duplicate guards, live budget checks, and resumable workers mattered as much as the simulation formula during a timed event.</p></div></li>
+          <li><span>06</span><div><h3>Keep the coarse results.</h3><p>Saving estimates at every cutoff let us estimate the remaining truncation bias. Extrapolating them lifted G4 from 213 to 544, more than any single tighter simulation did.</p></div></li>
         </ol>
       </section>
 
@@ -272,7 +288,7 @@
   </div>
 
   <footer>
-    <p><strong>Chasing the Echo</strong> — an independent Duke Quantum Hackathon field report.</p>
+    <p><strong>BlueQubit Challenge: CyberCon + QuantTraders</strong> — an independent field report.</p>
     <p>Built from saved scripts, job provenance, and verified source material. Approximate results are labeled as such.</p>
   </footer>
 </body>

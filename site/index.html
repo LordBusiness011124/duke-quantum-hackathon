@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An illustrated lab notebook documenting our attempt to classically estimate quantum echoes in the Duke Quantum Hackathon.">
+  <meta name="theme-color" content="#07111f">
+  <title>Chasing the Echo — Duke Quantum Hackathon</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#story">Skip to the story</a>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
+  <header class="hero" id="top">
+    <nav class="topbar" aria-label="Primary navigation">
+      <a class="wordmark" href="#top" aria-label="Chasing the Echo home">
+        <span class="wordmark-mark" aria-hidden="true">Ψ</span>
+        <span>Chasing the Echo</span>
+      </a>
+      <div class="topbar-links">
+        <a href="#journey">The journey</a>
+        <a href="#methods">Methods</a>
+        <a href="#lessons">Lessons</a>
+        <a href="https://github.com/LordBusiness011124/duke-quantum-hackathon">Source</a>
+      </div>
+    </nav>
+
+    <div class="hero-grid" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow">A 24-hour classical simulation field report</p>
+      <h1>We tried to catch a<br><em>quantum echo.</em></h1>
+      <p class="lede">Seven circuit families. Hidden answers. A state space that doubled with every qubit. This is the story of what we calculated exactly, what we approximated, what failed, and what we learned.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#first-principles">Start from the beginning</a>
+        <a class="button button-secondary" href="#results">See the results</a>
+      </div>
+    </div>
+
+    <dl class="hero-stats" aria-label="Project snapshot">
+      <div><dt>7</dt><dd>problem families</dd></div>
+      <div><dt>38</dt><dd>qubits at the frontier</dd></div>
+      <div><dt>2<sup>38</sup></dt><dd>possible basis states</dd></div>
+      <div><dt>197</dt><dd>best verified G4 snapshot</dd></div>
+    </dl>
+  </header>
+
+  <div class="story-layout">
+    <aside class="chapter-nav" aria-label="Story chapters">
+      <p>Field notes</p>
+      <nav>
+        <a href="#first-principles">01 · What we measured</a>
+        <a href="#echo">02 · The echo</a>
+        <a href="#journey">03 · The seven problems</a>
+        <a href="#methods">04 · Our methods</a>
+        <a href="#failures">05 · What failed</a>
+        <a href="#results">06 · Results</a>
+        <a href="#lessons">07 · What we learned</a>
+        <a href="#resources">08 · Keep learning</a>
+      </nav>
+    </aside>
+
+    <main id="story">
+      <section class="chapter intro" id="first-principles">
+        <p class="chapter-number">01 / First principles</p>
+        <h2>The answer was never a single 0 or 1.</h2>
+        <p class="standfirst">Each circuit ends with a measurement, but the challenge asked us to predict the average behavior of that measurement across many identical runs.</p>
+
+        <div class="equation-card">
+          <p class="equation-label">The quantity submitted for qubit q</p>
+          <p class="equation">⟨Z<sub>q</sub>⟩ = P(q = 0) − P(q = 1)</p>
+          <div class="probability-scale" aria-label="Z expectation examples">
+            <div><strong>+1</strong><span>always 0</span></div>
+            <div><strong>0</strong><span>50 / 50</span></div>
+            <div><strong>−1</strong><span>always 1</span></div>
+          </div>
+        </div>
+
+        <div class="prose-columns">
+          <div>
+            <h3>Amplitudes before probabilities</h3>
+            <p>A quantum state attaches an amplitude to every possible outcome. Amplitudes have a size and a phase. We combine them first, then square their magnitudes to obtain probabilities.</p>
+          </div>
+          <div>
+            <h3>Interference is the complication</h3>
+            <p>Different paths through a circuit can reinforce or cancel. A contribution that looks tiny by itself can matter when larger contributions almost cancel one another.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter dark-chapter" id="echo">
+        <p class="chapter-number">02 / The experiment</p>
+        <h2>An echo turns a tiny disturbance into evidence.</h2>
+        <p class="standfirst">Evolve forward with <em>U</em>, insert a deliberate “butterfly” operation, then reverse with <em>U†</em>. If the disturbance spreads, the system does not return perfectly to its starting state.</p>
+
+        <figure class="echo-diagram">
+          <div class="echo-step">
+            <span>01</span><strong>Prepare</strong><small>|00…0⟩</small>
+          </div>
+          <div class="echo-arrow" aria-hidden="true">→</div>
+          <div class="echo-step hot">
+            <span>02</span><strong>Evolve</strong><small>U</small>
+          </div>
+          <div class="echo-arrow" aria-hidden="true">→</div>
+          <div class="echo-step butterfly">
+            <span>03</span><strong>Disturb</strong><small>butterfly</small>
+          </div>
+          <div class="echo-arrow" aria-hidden="true">→</div>
+          <div class="echo-step hot">
+            <span>04</span><strong>Reverse</strong><small>U†</small>
+          </div>
+          <div class="echo-arrow" aria-hidden="true">→</div>
+          <div class="echo-step">
+            <span>05</span><strong>Measure</strong><small>⟨Z⟩</small>
+          </div>
+          <figcaption>The challenge used a repeated, higher-order version of this idea. The diagram shows the core intuition.</figcaption>
+        </figure>
+      </section>
+
+      <section class="chapter" id="journey">
+        <p class="chapter-number">03 / The seven problems</p>
+        <h2>Every added qubit doubled the room.</h2>
+        <p class="standfirst">The requested quantity stayed the same. The practical way to calculate it changed as the circuits grew.</p>
+
+        <div class="problem-timeline">
+          <article>
+            <div class="problem-id">S1</div>
+            <div><h3>4 qubits · 16 amplitudes</h3><p>Our end-to-end test. We loaded the open QASM, retained the complete state, calculated each Z expectation, and verified it with a second simulator.</p></div>
+            <span class="status exact">Exact</span>
+          </article>
+          <article>
+            <div class="problem-id">S2</div>
+            <div><h3>16 qubits · 65,536 amplitudes</h3><p>The same local statevector workflow still fit comfortably. This confirmed that our indexing and observable construction scaled correctly.</p></div>
+            <span class="status exact">Exact</span>
+          </article>
+          <article>
+            <div class="problem-id">S3</div>
+            <div><h3>30 qubits · over one billion amplitudes</h3><p>Too large for our small local session, but within the cloud CPU simulator’s exact limit. It became our reference set for testing approximations.</p></div>
+            <span class="status exact">Exact</span>
+          </article>
+          <article>
+            <div class="problem-id">G1</div>
+            <div><h3>30 hidden-qubit circuits</h3><p>We requested each expectation directly from the exact cloud backend and saved every job’s provenance.</p></div>
+            <span class="status exact">Exact</span>
+          </article>
+          <article>
+            <div class="problem-id">G2</div>
+            <div><h3>36-qubit chain</h3><p>Beyond the exposed exact limit. Our best saved result used a structural wavefront model based on distance from the butterfly.</p></div>
+            <span class="status model">Model</span>
+          </article>
+          <article>
+            <div class="problem-id">G3</div>
+            <div><h3>36-qubit Clifford + Rz grid</h3><p>Approximate Pauli simulation was explored. The best saved answer scored strongly, though its precise producing configuration still needs provenance verification.</p></div>
+            <span class="status approximate">Approx.</span>
+          </article>
+          <article>
+            <div class="problem-id">G4</div>
+            <div><h3>38-qubit Haar-random grid</h3><p>The hardest case: 3,024 CZ gates, deep interference, and no exact backend. We tested structural guesses, MPS compression, and increasingly fine Pauli paths.</p></div>
+            <span class="status frontier">Frontier</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="chapter" id="methods">
+        <p class="chapter-number">04 / The toolbox</p>
+        <h2>Four ways to ask the same question.</h2>
+
+        <div class="method-grid">
+          <article>
+            <span class="method-index">A</span>
+            <h3>Statevector</h3>
+            <p>Keep every amplitude and apply every gate. It gives the cleanest answer, but memory grows exponentially with qubit count.</p>
+            <dl><div><dt>Strength</dt><dd>No deliberate truncation</dd></div><div><dt>Limit</dt><dd>Exponential memory</dd></div></dl>
+          </article>
+          <article>
+            <span class="method-index">B</span>
+            <h3>Matrix product states</h3>
+            <p>Compress the state by limiting how much entanglement is retained. Excellent for suitable low-entanglement systems; fragile on deep two-dimensional echoes.</p>
+            <dl><div><dt>Knob</dt><dd>Bond dimension</dd></div><div><dt>Risk</dt><dd>Lost correlations</dd></div></dl>
+          </article>
+          <article class="featured">
+            <span class="method-index">C</span>
+            <h3>Pauli paths</h3>
+            <p>Propagate the observable backward instead of the whole state forward. Discard small Pauli coefficients to control memory. This produced our best verified G4 estimate.</p>
+            <dl><div><dt>Knob</dt><dd>Truncation cutoff</dd></div><div><dt>Risk</dt><dd>Interference error</dd></div></dl>
+          </article>
+          <article>
+            <span class="method-index">D</span>
+            <h3>Structural models</h3>
+            <p>Estimate the shape of information spreading from geometry and distance. Fast and sometimes correlated, but it does not simulate the fixed random circuit.</p>
+            <dl><div><dt>Strength</dt><dd>Very inexpensive</dd></div><div><dt>Risk</dt><dd>Misses circuit detail</dd></div></dl>
+          </article>
+        </div>
+
+        <div class="cutoff-demo">
+          <div>
+            <p class="eyebrow">Why the cutoff mattered</p>
+            <h3>A tighter cutoff keeps more of the calculation alive.</h3>
+            <p>At cutoff 0.001, a path with magnitude 0.0005 is discarded. At 0.0001, it survives. Smaller cutoffs need more memory, and accuracy can still change non-monotonically because paths interfere.</p>
+          </div>
+          <div class="cutoff-ruler" aria-label="Illustration of progressively tighter Pauli path cutoffs">
+            <div><span>0.001</span><i style="--kept: 28%"></i><small>coarse</small></div>
+            <div><span>0.0001</span><i style="--kept: 54%"></i><small>finer</small></div>
+            <div><span>0.00002</span><i style="--kept: 78%"></i><small>GPU</small></div>
+            <div><span>0.000015</span><i style="--kept: 88%"></i><small>memory permitting</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter dark-chapter" id="failures">
+        <p class="chapter-number">05 / The useful failures</p>
+        <h2>The dead ends taught us where the hardness lived.</h2>
+        <div class="failure-list">
+          <article><span>01</span><div><h3>Low-bond MPS lost the signal</h3><p>The grid echo produced too much entanglement for the compression we could afford. Raising the bond dimension quickly became expensive or unavailable.</p></div></article>
+          <article><span>02</span><div><h3>Geometry was not the circuit</h3><p>A spreading-front guess captured intuition but ignored the fixed random gates and their phases. It could suggest a shape, not reproduce the interference.</p></div></article>
+          <article><span>03</span><div><h3>Smaller was not automatically converged</h3><p>Pauli-path estimates moved as the cutoff tightened, sometimes changing sign. We learned to label every estimate honestly and preserve its settings.</p></div></article>
+          <article><span>04</span><div><h3>More workers did not mean more GPUs</h3><p>The hackathon backend enforced one active GPU job. We shifted from attempted concurrency to a durable sequential controller with checkpoints and recovery.</p></div></article>
+        </div>
+      </section>
+
+      <section class="chapter" id="results">
+        <p class="chapter-number">06 / Snapshot</p>
+        <h2>What the scoreboard told us—and what it did not.</h2>
+        <p class="standfirst">Scores measure squared positive correlation with hidden answers. A high score means the pattern agrees; it does not prove that every value is numerically exact.</p>
+
+        <div class="scoreboard" aria-label="Best verified score snapshot">
+          <div><span>S1</span><strong>100</strong><i style="--score:100%"></i><small>/ 100</small></div>
+          <div><span>S2</span><strong>100</strong><i style="--score:100%"></i><small>/ 100</small></div>
+          <div><span>S3</span><strong>100</strong><i style="--score:100%"></i><small>/ 100</small></div>
+          <div><span>G1</span><strong>300</strong><i style="--score:100%"></i><small>/ 300</small></div>
+          <div><span>G2</span><strong>534</strong><i style="--score:89%"></i><small>/ 600</small></div>
+          <div><span>G3</span><strong>795</strong><i style="--score:99.4%"></i><small>/ 800</small></div>
+          <div class="g4"><span>G4</span><strong>197</strong><i style="--score:19.7%"></i><small>/ 1000 · verified snapshot</small></div>
+        </div>
+
+        <aside class="caveat">
+          <strong>Scientific honesty matters.</strong>
+          <p>G4 was not solved exactly. The repository preserves approximate results and their limitations. G3’s best saved vector is included, but its precise producing configuration remains unverified.</p>
+        </aside>
+      </section>
+
+      <section class="chapter" id="lessons">
+        <p class="chapter-number">07 / Lessons</p>
+        <h2>What we would carry into the next attempt.</h2>
+        <ol class="lesson-list">
+          <li><span>01</span><div><h3>Define the observable before choosing the simulator.</h3><p>We needed one expectation per circuit, not a complete output distribution. That opened the door to Heisenberg-picture and Pauli-path methods.</p></div></li>
+          <li><span>02</span><div><h3>Use exact samples as calibration instruments.</h3><p>S3 let us distinguish a working implementation from an accurate approximation. Passing one sample point still did not guarantee transfer to G4.</p></div></li>
+          <li><span>03</span><div><h3>Record provenance at the moment of computation.</h3><p>Every useful value needs its circuit ID, backend, cutoff, compilation level, job ID, cost, and status. Missing provenance makes a strong result difficult to defend.</p></div></li>
+          <li><span>04</span><div><h3>Convergence is evidence, not a setting name.</h3><p>A “fine” cutoff is only meaningful when successive estimates stabilize or an independent method agrees.</p></div></li>
+          <li><span>05</span><div><h3>Build for failure.</h3><p>Checkpointing, duplicate guards, live budget checks, and resumable workers mattered as much as the simulation formula during a timed event.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="chapter resources" id="resources">
+        <p class="chapter-number">08 / Continue the trail</p>
+        <h2>Read the sources, inspect the code, reproduce what you can.</h2>
+        <div class="resource-links">
+          <a href="https://www.nature.com/articles/s41586-025-09526-6"><span>Paper</span><strong>Google Quantum Echoes</strong><small>Nature, 2025</small></a>
+          <a href="https://arxiv.org/abs/2607.09882"><span>Benchmark</span><strong>Statevector, MPS & Pauli paths</strong><small>arXiv:2607.09882</small></a>
+          <a href="https://app.bluequbit.io/tutorial/otoc-tutorial"><span>Tutorial</span><strong>Build an OTOC echo</strong><small>BlueQubit</small></a>
+          <a href="https://github.com/LordBusiness011124/duke-quantum-hackathon"><span>Repository</span><strong>Scripts and result snapshots</strong><small>GitHub</small></a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p><strong>Chasing the Echo</strong> — an independent Duke Quantum Hackathon field report.</p>
+    <p>Built from saved scripts, job provenance, and verified source material. Approximate results are labeled as such.</p>
+  </footer>
+</body>
+</html>

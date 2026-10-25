@@ -16,7 +16,12 @@ For each circuit ID Duke_<problem>_<q>, start in the all-zero state and calculat
 S3 exact results were used to check selected approximate runs; S3 is mostly Clifford plus Rz and does not guarantee transfer of accuracy to G4's Haar-random circuits. Correlation scores measure pattern agreement, not absolute numerical accuracy. Best verified G4 snapshot: 197/1000. Score-derived reconstruction of hidden answers is not used.
 
 ## Files
-results/ contains answer CSV snapshots. scripts/ contains selected original workspace scripts as an implementation record, not yet a standalone runnable distribution: some depend on workspace circuit downloads, prior result caches and configuration files. Reproduction instructions and missing provenance must be completed before calling this repository fully reproducible.
+The answer CSV files are deliberately excluded from this repository and from
+the public website. `scripts/` contains selected original workspace scripts as
+an implementation record, not yet a standalone runnable distribution: some
+depend on private circuit downloads, prior result caches, and configuration
+files. Reproduction instructions and missing provenance must be completed
+before calling this repository fully reproducible.
 
 See [RESOURCES.md](RESOURCES.md) for the challenge materials, papers that
 informed our simulator choices, prior classical-simulation work, and a short
@@ -27,4 +32,4 @@ Nginx container for deployment to Vultr. See `site/DEPLOYMENT.md` for the
 recommended server, DNS, HTTPS, and update workflow.
 
 ## Credentials and publishing
-BlueQubit access uses the BLUEQUBIT_API_TOKEN environment variable. Never commit tokens, environment files, account exports or raw terminal logs. This curated package excludes those records. No hidden graded QASM is included. Keep unpublished competition answers private unless organizer rules permit their release.
+BlueQubit access uses the BLUEQUBIT_API_TOKEN environment variable. Never commit tokens, environment files, answer CSVs, account exports, or raw terminal logs. This curated package excludes those records. No hidden graded QASM is included. Keep unpublished competition answers private unless organizer rules permit their release.

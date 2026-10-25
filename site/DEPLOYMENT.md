@@ -66,6 +66,8 @@ an SSH deploy account and runs this update only after a reviewed change reaches
 
 - Replace the G4 snapshot if a later verified submission scores better.
 - Resolve or clearly retain the G3 provenance limitation.
-- Confirm the competition permits publishing answer CSVs and method details.
+- Keep answer CSV files out of the image and public repository. The supplied
+  Dockerfile copies only `index.html`, `styles.css`, and `app.js`.
+- Confirm the competition permits publishing method details.
 - Add a real domain and verify HTTPS.
 - Test the page on a phone and with keyboard-only navigation.

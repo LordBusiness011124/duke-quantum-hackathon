@@ -18,5 +18,9 @@ S3 exact results were used to check selected approximate runs; S3 is mostly Clif
 ## Files
 results/ contains answer CSV snapshots. scripts/ contains selected original workspace scripts as an implementation record, not yet a standalone runnable distribution: some depend on workspace circuit downloads, prior result caches and configuration files. Reproduction instructions and missing provenance must be completed before calling this repository fully reproducible.
 
+See [RESOURCES.md](RESOURCES.md) for the challenge materials, papers that
+informed our simulator choices, prior classical-simulation work, and a short
+beginner learning path.
+
 ## Credentials and publishing
 BlueQubit access uses the BLUEQUBIT_API_TOKEN environment variable. Never commit tokens, environment files, account exports or raw terminal logs. This curated package excludes those records. No hidden graded QASM is included. Keep unpublished competition answers private unless organizer rules permit their release.

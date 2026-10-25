@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.log
+*_job.json
+*submission_response.json
+*before_submission.json
+.bq-runs/

@@ -1,4 +1,4 @@
-# Duke Quantum Hackathon: OTOC estimation
+# BlueQubit Challenge: CyberCon + QuantTraders: OTOC estimation
 
 DRAFT repository package, prepared 2026-10-25. G4 research remains active; results here are a snapshot. Do not claim that all values are exact.
 

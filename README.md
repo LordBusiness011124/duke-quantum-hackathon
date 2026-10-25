@@ -22,5 +22,9 @@ See [RESOURCES.md](RESOURCES.md) for the challenge materials, papers that
 informed our simulator choices, prior classical-simulation work, and a short
 beginner learning path.
 
+The `site/` directory contains a responsive long-form walkthrough and a small
+Nginx container for deployment to Vultr. See `site/DEPLOYMENT.md` for the
+recommended server, DNS, HTTPS, and update workflow.
+
 ## Credentials and publishing
 BlueQubit access uses the BLUEQUBIT_API_TOKEN environment variable. Never commit tokens, environment files, account exports or raw terminal logs. This curated package excludes those records. No hidden graded QASM is included. Keep unpublished competition answers private unless organizer rules permit their release.
